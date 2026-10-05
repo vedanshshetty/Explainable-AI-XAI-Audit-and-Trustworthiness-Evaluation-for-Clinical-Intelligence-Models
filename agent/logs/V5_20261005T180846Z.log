@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 382, in run_gate
+    GATE_FUNCS[gate.upper()]()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 268, in v5_privacy
+    from backend.app.privacy import redact_phi, detect_phi, redaction_preview
+ModuleNotFoundError: No module named 'backend'

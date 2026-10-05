@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 389, in run_gate
+    GATE_FUNCS[gate.upper()]()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 190, in v2_data_and_indexes
+    r2 = run_cmd([sys.executable, "scripts/setup.py"], timeout=120)
+  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 108, in run_cmd
+    return subprocess.run(cmd, cwd=str(cwd or ROOT), env=env, capture_output=True, text=True, timeout=timeout)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Python314\\python.exe', 'scripts/setup.py']' timed out after 120 seconds

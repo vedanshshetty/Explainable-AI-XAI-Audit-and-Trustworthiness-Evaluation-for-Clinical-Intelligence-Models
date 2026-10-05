@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 382, in run_gate
+    GATE_FUNCS[gate.upper()]()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 170, in v2_data_and_indexes
+    n_docs = sum(1 for line in corpus if line.strip())
+                               ^^^^^^
+TypeError: 'WindowsPath' object is not iterable

@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.tox/
+.venv/
+venv/
+
+# Environment
+.env
+
+# Data (large files)
+data/faiss_index.*
+data/corpus*.pkl
+data/corpus.jsonl
+data/*.json
+data/llm_cache/
+data/raw/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Reports and evaluation results
+evaluation/results/*.json

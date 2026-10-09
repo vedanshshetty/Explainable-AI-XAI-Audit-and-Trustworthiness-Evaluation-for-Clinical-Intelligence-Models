@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Theme tokens.
+
+  Every colour used by the UI resolves through one of these variables, so the
+  light/dark toggle only has to swap the variable block on <html>. Tailwind's
+  palette is mapped to these in tailwind.config.ts, which means classes like
+  `bg-surface`, `text-ink-muted` and `bg-lilac-100` adapt automatically.
+
+  Both themes are authored deliberately: the dark set is not an inversion, it
+  keeps the same accent hues at lower lightness so text contrast stays readable.
+*/
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Surfaces */
+    --canvas: #eef2f7;
+    --surface: #ffffff;
+    --surface-2: #f7f9fc;
+    --rail: #ffffff;
+    --track: rgba(15, 23, 42, 0.07);
+    /* Readable foreground for saturated fills. Light-mode solids are dark
+       enough for white text; the dark-mode solids are light, so they flip. */
+    --on-solid: #0f172a;
+    --overlay: rgba(15, 23, 42, 0.05);
+
+    /* Ink */
+    --ink: #0f172a;
+    --ink-2: #334155;
+    --ink-muted: #64748b;
+    --ink-faint: #6b7280;
+
+    /* Hairlines + shadow */
+    --line: #e6eaf1;
+    --line-2: #d6dce7;
+    --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.03), 0 10px 26px -18px rgba(15, 23, 42, 0.22);
+    --shadow-lift: 0 2px 4px rgba(15, 23, 42, 0.04), 0 18px 40px -22px rgba(15, 23, 42, 0.28);
+    --shadow-pill: 0 1px 2px rgba(15, 23, 42, 0.04);
+
+    /* Pastel families: 50 wash, 100 chip, 200 border, 500 solid, 700 text */
+    --lilac-50: #f6f4ff;
+    --lilac-100: #ede9fe;
+    --lilac-200: #ddd6fe;
+    --lilac-500: #8b7cf6;
+    --lilac-700: #6d5dd3;
+
+    --mint-50: #f1fbf9;
+    --mint-100: #d9f5ef;
+    --mint-200: #b9e9df;
+    --mint-500: #4fbfa8;
+    --mint-700: #2f8c7a;
+
+    --butter-50: #fffdf0;
+    --butter-100: #fdf7d0;
+    --butter-200: #faed9a;
+    --butter-500: #d4b33f;
+    --butter-700: #9c7f1e;
+
+    --sky-50: #f2f8fe;
+    --sky-100: #e2effc;
+    --sky-200: #c3ddf8;
+    --sky-500: #5b9ee8;
+    --sky-700: #2e6fb8;
+
+    --blush-50: #fff5f6;
+    --blush-100: #fde8ea;
+    --blush-200: #fbcdd0;
+    --blush-500: #e4737f;
+    --blush-700: #b84a56;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    /* Surfaces: near-black navy, each step slightly lifted */
+    --canvas: #080b12;
+    --surface: #10151f;
+    --surface-2: #161d29;
+    --rail: #0c111a;
+    --track: rgba(255, 255, 255, 0.09);
+    --on-solid: #0b0f17;
+    --overlay: rgba(255, 255, 255, 0.04);
+
+    /* Ink */
+    --ink: #e6edf7;
+    --ink-2: #cbd5e4;
+    --ink-muted: #94a3b3;
+    --ink-faint: #8d99aa;
+
+    --line: rgba(255, 255, 255, 0.09);
+    --line-2: rgba(255, 255, 255, 0.16);
+    --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 12px 28px -18px rgba(0, 0, 0, 0.9);
+    --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 20px 44px -24px rgba(0, 0, 0, 0.95);
+    --shadow-pill: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+
+    /*
+      Pastels become dark tinted chips with a lighter text tone on top, so a
+      `bg-lilac-100 text-lilac-700` pair keeps roughly the same contrast ratio
+      it has in light mode.
+    */
+    --lilac-50: #151327;
+    --lilac-100: #221d3d;
+    --lilac-200: #342b5c;
+    --lilac-500: #a795ff;
+    --lilac-700: #c3b6ff;
+
+    --mint-50: #0c1a18;
+    --mint-100: #122c27;
+    --mint-200: #1b4038;
+    --mint-500: #4fd6bb;
+    --mint-700: #7ee7cd;
+
+    --butter-50: #1c1808;
+    --butter-100: #2b2410;
+    --butter-200: #3d3318;
+    --butter-500: #e5c65c;
+    --butter-700: #f0d888;
+
+    --sky-50: #0b1724;
+    --sky-100: #122436;
+    --sky-200: #1a3550;
+    --sky-500: #6fb2f0;
+    --sky-700: #9acbf7;
+
+    --blush-50: #1d0f13;
+    --blush-100: #2e171d;
+    --blush-200: #452128;
+    --blush-500: #f08a95;
+    --blush-700: #f7adb6;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply antialiased;
+    background: var(--canvas);
+    color: var(--ink);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.22s ease, color 0.22s ease;
+  }
+
+  /* Colour transition when the theme flips, but never on first paint. */
+  .theme-transition * {
+    transition: background-color 0.22s ease, border-color 0.22s ease,
+      color 0.22s ease, fill 0.22s ease, stroke 0.22s ease;
+  }
+
+  ::selection {
+    background: var(--lilac-200);
+    color: var(--ink);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--line-2);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--ink-faint);
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--lilac-500);
+  }
+
+  /* Native form controls follow the theme. */
+  input,
+  textarea,
+  select {
+    color-scheme: inherit;
+  }
+}
+
+@layer components {
+  .prose-note {
+    @apply text-[13.5px] leading-[1.78];
+    color: var(--ink-2);
+  }
+}

@@ -190,3 +190,52 @@ def test_rag_service_abstention():
     parsed = {"confidence_overall": 0.2}
     trust = svc._calculate_trust_metrics(docs, parsed)
     assert trust.abstain_status == True  # 0.2 < 0.45
+
+
+# --- Regression tests: PHI patterns must not silently stop matching ---
+# These guard against double-escaping bugs in raw-string regexes (e.g. r'\\s'
+# matching a literal backslash instead of whitespace), which make a PHI control
+# fail open with no test failure.
+
+PHI_MUST_DETECT = [
+    ("SSN", "SSN 123-45-6789 assigned"),
+    ("phone", "Call 555-123-4567 now"),
+    ("DOB", "DOB 1990-01-15 recorded"),
+    ("DOB_written", "Born on January 5, 1990 here"),
+    ("person_name", "John Smith presented"),
+    ("address", "Lives at 123 Main Street 45"),
+    ("medical_record_number", "Patient ID: 4482910 on file"),
+    ("medical_record_number", "MRN: A12345678 assigned"),
+]
+
+PHI_MUST_STAY_CLEAN = [
+    "65-year-old male with chest pain radiating to left arm",
+    "Fever, cough, and crackles on auscultation; RR 24, HR 102",
+    "Patient reports shortness of breath since yesterday",
+    "Laboratory results show elevated troponin at 0.9 ng/mL",
+    "Symptoms include nausea vomiting and dizziness",
+]
+
+
+@mark.parametrize("expected_label,text", PHI_MUST_DETECT)
+def test_privacy_detects_each_phi_type(expected_label, text):
+    """Every advertised PHI type must actually be detected."""
+    from backend.app.privacy import detect_phi
+    found = detect_phi(text)
+    assert found, f"no PHI detected in {text!r} (expected {expected_label})"
+    assert expected_label in found, f"{text!r} -> {found}, missing {expected_label}"
+
+
+@mark.parametrize("text", PHI_MUST_STAY_CLEAN)
+def test_privacy_no_false_positives_on_clinical_text(text):
+    """Ordinary clinical narrative must not be flagged as PHI."""
+    from backend.app.privacy import is_safe
+    assert is_safe(text), f"false positive on clean clinical text: {text!r}"
+
+
+def test_privacy_address_and_mrn_are_actually_redacted():
+    """Address/MRN patterns previously matched nothing; assert removal, not just detection."""
+    from backend.app.privacy import redact_phi
+    redacted, _ = redact_phi("Resides at 123 Main Street 45 with MRN A12345678")
+    assert "123 Main Street 45" not in redacted
+    assert "A12345678" not in redacted

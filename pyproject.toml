@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clinical-intelligence-system"
+version = "1.0.0"
+description = "Retrieval-augmented clinical reasoning with explainable AI and trust evaluation"
+requires-python = ">=3.10"
+
+# Runtime dependencies are pinned in requirements.txt so the two environments
+# (project venv on 3.11, system Python on 3.14) stay reproducible.
+dependencies = []
+
+[tool.setuptools]
+packages = ["backend", "backend.app"]
+
+[tool.setuptools.package-dir]
+"" = "."
+
+# Installing this package in editable mode puts the project root on sys.path,
+# which is what makes `python -m uvicorn backend.main:app` work from ANY working
+# directory instead of failing with `ModuleNotFoundError: No module named 'backend'`.

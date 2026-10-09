@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 476, in run_gate
+    GATE_FUNCS[gate.upper()]()
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 157, in v1_clean_venv_install
+    r2 = run_cmd([sys.executable, "-c", "from backend.app.rag_service import RAGService; s=RAGService(); print('OK')"], cwd=ROOT, env=env, timeout=30)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 108, in run_cmd
+    return subprocess.run(cmd, cwd=str(cwd or ROOT), env=env, capture_output=True, text=True, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shawa\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shawa\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shawa\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 1630, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Documnet\\College work\\Ethics\\LabCA\\.venv\\Scripts\\python.exe', '-c', "from backend.app.rag_service import RAGService; s=RAGService(); print('OK')"]' timed out after 30 seconds

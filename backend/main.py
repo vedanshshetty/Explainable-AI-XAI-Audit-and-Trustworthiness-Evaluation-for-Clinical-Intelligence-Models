@@ -1,9 +1,22 @@
 """Main FastAPI application for clinical intelligence system."""
 
+import asyncio
+import sys
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import structlog
+
+# On Windows, asyncio's default ProactorEventLoop can fail accept() with
+# OSError(WinError 64), which silently destroys the listening socket: the process
+# stays alive and keeps its memory, but the port stops accepting connections and
+# the API appears frozen. The selector loop does not have this failure mode.
+if sys.platform == "win32":
+    try:
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    except AttributeError:  # very old Python
+        pass
 
 from backend.app.config import settings
 from backend.app.models import ClinicalCaseRequest
@@ -59,14 +72,40 @@ async def analyze_case(payload: ClinicalCaseRequest):
 
 @app.get("/api/v1/status")
 async def status():
+    """Health probe that also reports retrieval readiness.
+
+    Index coverage is included so a demo operator can see immediately whether the
+    corpus and the FAISS/BM25 indexes are in sync.
+    """
+    corpus_docs = 0
+    indexed_docs = 0
+    try:
+        if rag_service is not None:
+            corpus_docs = len(rag_service._corpus)
+            indexed_docs = len(set(rag_service.faiss._docs) | set(rag_service.bm25.doc_ids))
+    except Exception:  # never let the health probe itself fail
+        pass
+
     return {
         "status": "healthy",
         "model": settings.OPENROUTER_MODEL,
         "k_retrieve": settings.RAG_K_RETRIEVE,
         "k_rerank": settings.RAG_K_RERANK,
+        "corpus_docs": corpus_docs,
+        "indexed_docs": indexed_docs,
+        "index_in_sync": corpus_docs == indexed_docs,
     }
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("backend.main:app", host=settings.APP_HOST, port=settings.APP_PORT, reload=settings.APP_DEBUG)
+
+    # loop="asyncio" + the selector policy above avoids the Windows accept() bug
+    # that leaves the port bound but not listening.
+    uvicorn.run(
+        "backend.main:app",
+        host=settings.APP_HOST,
+        port=settings.APP_PORT,
+        reload=settings.APP_DEBUG,
+        loop="asyncio",
+    )

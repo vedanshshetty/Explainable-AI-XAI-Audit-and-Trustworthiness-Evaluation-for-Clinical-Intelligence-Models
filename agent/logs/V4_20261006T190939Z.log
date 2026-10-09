@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 319, in v4_xai_and_trust
+    wait_http(f"http://127.0.0.1:{port}/", timeout=30)
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 104, in wait_http
+    raise TimeoutError(f"HTTP wait failed for {url}")
+TimeoutError: HTTP wait failed for http://127.0.0.1:51703/
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 476, in run_gate
+    GATE_FUNCS[gate.upper()]()
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 321, in v4_xai_and_trust
+    raise RuntimeError("Backend failed for V4")
+RuntimeError: Backend failed for V4

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 484, in run_gate
+    GATE_FUNCS[gate.upper()]()
+  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 468, in v9_fresh_clone
+    size = int(parts[1])
+           ^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'c84d249b723eb027b7378f94821fad3c53bd20aa'

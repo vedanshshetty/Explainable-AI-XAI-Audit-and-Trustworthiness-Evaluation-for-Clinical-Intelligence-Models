@@ -76,6 +76,32 @@ def build_indexes(corpus_path, faiss_path, bm25_path):
     return len(corpus), index.ntotal, len(doc_ids)
 
 
+def _index_health(corpus_path, faiss_path, bm25_path):
+    """Report whether the built indexes cover every document in the corpus.
+
+    A corpus that grew without a rebuild leaves documents permanently
+    unretrievable, which looks like a silent quality regression rather than an
+    error. Report it instead of letting it pass unnoticed.
+    """
+    corpus_size = sum(1 for line in open(corpus_path, "r", encoding="utf-8") if line.strip())
+    index_path = f"{faiss_path}.index"
+    if not os.path.exists(index_path):
+        return corpus_size, 0, 0
+    try:
+        import pickle
+        with open(f"{faiss_path}.docs.pkl", "rb") as f:
+            n_faiss = len(pickle.load(f)["docs"])
+    except Exception:
+        n_faiss = 0
+    try:
+        import pickle
+        with open(bm25_path, "rb") as f:
+            n_bm25 = len(pickle.load(f)["doc_ids"])
+    except Exception:
+        n_bm25 = 0
+    return corpus_size, n_faiss, n_bm25
+
+
 if __name__ == "__main__":
     corpus_path = Path(settings.CORPUS_PATH)
     if not corpus_path.exists():
@@ -84,8 +110,21 @@ if __name__ == "__main__":
         sys.exit(1)
 
     faiss_path = settings.FAISS_INDEX_PATH
-    bm25_path = corpus_path.with_suffix("_bm25.pkl").as_posix()
+    # with_suffix() accepts only a single suffix, so compose the sibling filename
+    # directly: data/corpus.jsonl -> data/corpus_bm25.pkl
+    bm25_path = str(corpus_path.with_name(corpus_path.stem + "_bm25.pkl"))
     n_docs, n_faiss, n_bm25 = build_indexes(str(corpus_path), faiss_path, bm25_path)
     print(f"Built indexes: {n_docs} docs, {n_faiss} FAISS vectors, {n_bm25} BM25 docs")
     if n_faiss != n_docs or n_bm25 != n_docs:
         print("WARNING: Index sizes mismatch!", file=sys.stderr)
+
+    # Fail loudly when the corpus outgrew the indexes.
+    corpus_n, idx_faiss, idx_bm25 = _index_health(str(corpus_path), faiss_path, bm25_path)
+    if corpus_n != idx_faiss or corpus_n != idx_bm25:
+        print(
+            f"ERROR: corpus has {corpus_n} documents but indexes cover "
+            f"{idx_faiss} (FAISS) / {idx_bm25} (BM25). The extra documents cannot be "
+            "retrieved. Re-run: python scripts/build_index.py",
+            file=sys.stderr,
+        )
+        sys.exit(1)

@@ -1,7 +1,7 @@
 """PHI redaction for clinical text input."""
 
 import re
-from typing import List, Tuple, Dict
+from typing import Any, Dict, List, Tuple
 
 
 PHI_PATTERNS: List[Tuple[re.Pattern, str]] = [
@@ -10,10 +10,11 @@ PHI_PATTERNS: List[Tuple[re.Pattern, str]] = [
     (re.compile(r'\+\d{1,3}[\s.-]?\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{4}', re.IGNORECASE), 'phone_intl'),
     (re.compile(r'\b\d{4}[/\-]\d{2}[/\-]\d{2}\b', re.IGNORECASE), 'DOB'),
     (re.compile(r'\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}\b', re.IGNORECASE), 'DOB_written'),
-    (re.compile(r'\b\d+\\s+[A-Z][a-z]+\\s+(?:Street|St|Avenue|Ave|Boulevard|Blvd|Drive|Dr|Road|Rd|Lane|Ln|Court|Ct|Way|Place|Pl)\\.?\\s+\d+', re.IGNORECASE), 'address'),
-    (re.compile(r'\b(?:MRN|medical record number|Patient ID|patient_id)\\s*[:#\\-]?\\s*[A-Z0-9\\-]{4,20}\\b', re.IGNORECASE), 'medical_record_number'),
-    (re.compile(r'\bID[:\\#]\\s*[A-Z0-9\\-]{3,30}\\b', re.IGNORECASE), 'patient_identifier'),
+    (re.compile(r'\b\d{1,6}\s+[A-Z][a-z]+\s+(?:Street|St|Avenue|Ave|Boulevard|Blvd|Drive|Dr|Road|Rd|Lane|Ln|Court|Ct|Way|Place|Pl)\.?\s+\d+\b', re.IGNORECASE), 'address'),
+    (re.compile(r'\b(?:MRN|medical record number|Patient ID|patient_id)\s*[:#\-]?\s*[A-Z0-9\-]{4,20}\b', re.IGNORECASE), 'medical_record_number'),
+    (re.compile(r'\bID[:\#]\s*[A-Z0-9\-]{3,30}\b', re.IGNORECASE), 'patient_identifier'),
     (re.compile(r'\bA\d{7}\b', re.IGNORECASE), 'MRN_alphanumeric'),
+    (re.compile(r'\b[A-Z]\d{7,9}\b', re.IGNORECASE), 'MRN_prefixed'),
     (re.compile(r'\b(?:John|Smith|Jane|Doe|Robert|Michael|Emily|Sarah|David|Lisa)\b', re.IGNORECASE), 'person_name'),
 ]
 

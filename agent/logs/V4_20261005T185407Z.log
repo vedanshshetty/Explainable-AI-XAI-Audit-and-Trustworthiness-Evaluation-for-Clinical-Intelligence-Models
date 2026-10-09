@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 471, in run_gate
-    GATE_FUNCS[gate.upper()]()
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 347, in v4_xai_and_trust
-    raise RuntimeError("Hardcoded trust score found")
-RuntimeError: Hardcoded trust score found

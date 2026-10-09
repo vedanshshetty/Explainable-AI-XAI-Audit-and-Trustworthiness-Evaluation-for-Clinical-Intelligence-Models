@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 382, in run_gate
-    GATE_FUNCS[gate.upper()]()
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 171, in v2_data_and_indexes
-    if n_docs < 1000: raise RuntimeError(f"Only {n_docs} docs (need >=1000)")
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: Only 0 docs (need >=1000)

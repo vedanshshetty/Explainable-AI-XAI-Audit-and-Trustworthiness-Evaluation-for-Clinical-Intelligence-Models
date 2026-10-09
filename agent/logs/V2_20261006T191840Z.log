@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 484, in run_gate
-    GATE_FUNCS[gate.upper()]()
-  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 274, in v2_data_and_indexes
-    from backend.app.rag_service import RAGService
-  File "C:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\backend\app\rag_service.py", line 288
-    with open(corpus_path, "r", encoding="utf-8") as f:
-IndentationError: unexpected indent

@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 382, in run_gate
-    GATE_FUNCS[gate.upper()]()
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 237, in v4_xai_and_trust
-    if resp.status_code != 200: raise RuntimeError(f"V4 failed: {resp.status_code}: {resp.text[:300]}")
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: V4 failed: 500: {"detail":"LLM call failed: 'str' object has no attribute 'get'"}

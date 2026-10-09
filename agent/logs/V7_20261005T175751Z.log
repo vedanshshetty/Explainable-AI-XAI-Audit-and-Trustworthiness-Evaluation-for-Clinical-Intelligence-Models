@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 382, in run_gate
-    GATE_FUNCS[gate.upper()]()
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 329, in v7_study
-    raise RuntimeError("docs/protocol.md missing")
-RuntimeError: docs/protocol.md missing

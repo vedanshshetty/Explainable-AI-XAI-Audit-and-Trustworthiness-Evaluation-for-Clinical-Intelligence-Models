@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 382, in run_gate
-    GATE_FUNCS[gate.upper()]()
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 340, in v8_docs
-    raise RuntimeError(f"Missing doc: {r}")
-RuntimeError: Missing doc: README.md

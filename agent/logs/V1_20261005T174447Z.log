@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 381, in run_gate
-    GATE_FUNCS[gate.upper()]()
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 150, in v1_clean_venv_install
-    if bad_imports: raise RuntimeError("AST check failed: " + "; ".join(bad_imports[:5]))
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: AST check failed: config.py: pydantic_settings not in requirements; privacy.py: syntax error; rag_service.py: syntax error; build_index.py: syntax error; download_data.py: syntax error

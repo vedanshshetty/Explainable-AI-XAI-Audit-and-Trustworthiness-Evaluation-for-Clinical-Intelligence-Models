@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 380, in run_gate
-    GATE_FUNCS[gate.upper()]()
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "c:\Documnet\College work\Ethics\LabCA\clinical-intelligence-system\scripts\verify.py", line 149, in v1_clean_venv_install
-    if bad_imports: raise RuntimeError("AST check failed: " + "; ".join(bad_imports[:5]))
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: AST check failed: test_clinical_system.py: syntax error; main.py: backend not in requirements; main.py: backend not in requirements; main.py: backend not in requirements; config.py: pydantic_settings not in requirements
